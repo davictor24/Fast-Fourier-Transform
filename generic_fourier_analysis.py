@@ -2,13 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-N = 2**10 # number of samples
+N = 2**5 # number of samples
 tp = 4 # sampling duration
 
 def signal(t):
-    pi = math.pi
-    sin = math.sin
-    return 5*sin(2*pi*100*t) + 3*sin(2*pi*50*t) + 20*sin(2*pi*80*t)
+    # pi = math.pi
+    # sin = math.sin
+    # return 5*sin(2*pi*100*t) + 3*sin(2*pi*50*t) + 20*sin(2*pi*80*t)
+    return 1 if t < 1 else 0
 
 def fft(f):
     Ni = len(f)

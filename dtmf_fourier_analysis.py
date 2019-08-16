@@ -23,6 +23,44 @@ def fft(f):
     Fo = fft(fo)
     return [np.around(Fe[i] + (wn**i)*Fo[i], decimals=10) for i in range(Mi)] + [np.around(Fe[i] - (wn**i)*Fo[i], decimals=10) for i in range(Mi)]
 
+def get_pressed(f, spectrum):
+    fh = [697, 770, 852, 941]
+    fv = [1209, 1336, 1477, 1633]
+    f, spectrum = zip(*sorted(zip(f, spectrum), key=lambda x: x[1], reverse=True))
+    f1 = f[0]
+    f2 = None
+    for fi in f:
+        if abs(fi - f1) >= 200:
+            f2 = fi
+            break
+    f1, f2 = min(f1, f2), max(f1, f2)
+    print('Frequencies detected: ' + str(f1) + 'Hz, ' + str(f2) + 'Hz.')
+    
+    rows, _ = zip(*sorted(zip([i for i in range(len(fh))], [abs(f1 - fi) for fi in fh]), key=lambda x: x[1]))
+    columns, _ = zip(*sorted(zip([i for i in range(len(fv))], [abs(f2 - fi) for fi in fv]), key=lambda x: x[1]))
+    row, column = rows[0], columns[0]
+
+    if row == 0:
+        if column == 0: return '1'
+        elif column == 1: return '2'
+        elif column == 2: return '3'
+        elif column == 3: return 'A'
+    elif row == 1:
+        if column == 0: return '4'
+        elif column == 1: return '5'
+        elif column == 2: return '6'
+        elif column == 3: return 'B'
+    elif row == 2:
+        if column == 0: return '7'
+        elif column == 1: return '8'
+        elif column == 2: return '9'
+        elif column == 3: return 'C'
+    elif row == 3:
+        if column == 0: return '*'
+        elif column == 1: return '0'
+        elif column == 2: return '#'
+        elif column == 3: return 'D'
+
 recording = sd.rec(N, samplerate=fs, channels=1)
 print('Recording...')
 sd.wait()  # Wait until recording is finished
@@ -37,6 +75,9 @@ M = int(N/2)
 ti = [i*tp/N for i in range(N)]
 fi = [i/tp for i in range(M)]
 X_amp = X_amp[:M]
+
+pressed = get_pressed(fi, X_amp)
+print(pressed, 'was pressed.')
 
 plt.subplots_adjust(wspace=0.4, hspace=0.4)
 
@@ -59,3 +100,5 @@ plt.grid(b=True, which='major', linestyle='-')
 plt.grid(b=True, which='minor', linestyle='--')
 
 plt.show()
+
+
