@@ -74,7 +74,7 @@ X_amp = [np.absolute(Xi) for Xi in X] # amplitude spectrum
 M = int(N/2)
 ti = [i*tp/N for i in range(N)]
 fi = [i/tp for i in range(M)]
-X_amp = X_amp[:M]
+X_amp = np.array(X_amp[:M])*2
 
 pressed = get_pressed(fi, X_amp)
 print(pressed, 'was pressed.')
@@ -88,7 +88,6 @@ plt.ylabel('x(t)')
 plt.minorticks_on()
 plt.grid(b=True, which='major', linestyle='-')
 plt.grid(b=True, which='minor', linestyle='--')
-
 
 ax2 = plt.subplot(212)
 plt.plot(fi, X_amp)

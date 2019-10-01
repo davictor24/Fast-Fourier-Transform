@@ -36,7 +36,7 @@ X_amp = [np.absolute(Xi) for Xi in X] # amplitude spectrum
 M = int(N/2)
 ti = [i*tp/N for i in range(N)]
 fi = [i/tp for i in range(M)]
-X_amp = X_amp[:M]
+X_amp = np.array(X_amp[:M])*2
 
 plt.subplots_adjust(wspace=0.4, hspace=0.4)
 
